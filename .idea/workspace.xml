@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a6f365f-8f5c-496d-8932-51c5a70caea6" name="变更" comment="" />
+    <list default="true" id="5a6f365f-8f5c-496d-8932-51c5a70caea6" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/config/security/JwtAuthencationTokenFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/config/security/RestAuthorizationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/config/security/RestfulAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/service/IAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/service/IAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/service/impl/AdminServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +26,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -28,6 +40,7 @@
     </option>
   </component>
   <component name="ProjectId" id="21rEMC5q7Cr1RzaPSwQWV8bSxMR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,7 +52,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/yeb-server/src/main/resources/mapper" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/yeb-server/src/main/java/com/xxxx/server/config/security" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -47,11 +60,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\java\com\xxxx\server\config\security" />
       <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\resources\mapper" />
       <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\java\com\xxxx\server\server\service" />
       <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\java\com\xxxx\server\mapper" />
       <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\java\com\xxxx\server\controller" />
-      <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\java\com\xxxx\server\pojo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\2080s\IdeaProjects\demo7\demo\demo\demo\yeb\yeb-server\src\main\resources\config" />
@@ -68,11 +81,23 @@
       <updated>1638690757257</updated>
       <workItem from="1638690759173" duration="2002000" />
       <workItem from="1638700329080" duration="6057000" />
-      <workItem from="1638721358901" duration="1628000" />
+      <workItem from="1638721358901" duration="1898000" />
+      <workItem from="1638765316076" duration="5016000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
