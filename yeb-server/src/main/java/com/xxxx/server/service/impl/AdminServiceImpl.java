@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +35,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private UserDetailsService userDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
+    @Resource
     private AdminMapper adminMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Value("${jwt.tokenHead")
+    @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Override
     public RespBean login(String username, String password, HttpServletRequest request) {
@@ -65,8 +66,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Admin getAdminByUserName(String username) {
-        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username).eq(
-                "enabled",true
-        ));
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username)
+                .eq("enabled",true)
+        );
     }
 }
