@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xxxx.server.config.security.JwtTokenUtil;
 import com.xxxx.server.mapper.AdminMapper;
 import com.xxxx.server.pojo.Admin;
+import com.xxxx.server.pojo.Menu;
 import com.xxxx.server.pojo.RespBean;
 import com.xxxx.server.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,11 +45,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Override
-    public RespBean login(String username, String password, HttpServletRequest request) {
+    public RespBean login(String username, String password, String code, HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isEmpty(code)||!captcha.equalsIgnoreCase(code)){
+            return RespBean.error("验证码输入错误，请重新输入！");
+        }
         //登录
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if(null==userDetails||passwordEncoder.matches(password,userDetails.getPassword())){
-            return  RespBean.error("用户名不正确");
+        if (null==userDetails||!passwordEncoder.matches(password,userDetails.getPassword())){
+            return RespBean.error("用户名或密码不正确");
         }
         if (!userDetails.isEnabled()){
             return  RespBean.error("账号被禁用");
@@ -69,5 +76,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username)
                 .eq("enabled",true)
         );
+    }
+
+    @Override
+    public List<Menu> getMenusByAdminId() {
+        return adminMapper.getMenusByAdminId(((Admin)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
 }
