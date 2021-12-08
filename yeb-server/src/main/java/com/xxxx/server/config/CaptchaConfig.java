@@ -7,12 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-/**
- * 验证码配置类
- *
- * @author zhoubin
- * @since 1.0.0
- */
 @Configuration
 public class CaptchaConfig {
 
