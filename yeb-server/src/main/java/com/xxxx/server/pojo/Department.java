@@ -1,6 +1,7 @@
 package com.xxxx.server.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -43,9 +45,17 @@ public class Department implements Serializable {
 
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
-
-    @ApiModelProperty(value = "是否上级")
+    @ApiModelProperty("是否上级")
     private Boolean isParent;
+
+
+    @ApiModelProperty(value = "子部门列表")
+    @TableField(exist = false)
+    private List<Department> children;
+
+    @ApiModelProperty(value = "返回结果")
+    @TableField(exist = false)
+    private Integer result;
 
 
 }

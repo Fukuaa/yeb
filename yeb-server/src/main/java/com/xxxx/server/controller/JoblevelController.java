@@ -5,6 +5,7 @@ import com.xxxx.server.pojo.Joblevel;
 import com.xxxx.server.pojo.RespBean;
 import com.xxxx.server.service.IJoblevelService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,7 @@ public class JoblevelController {
         return RespBean.error("失败");
     }
     @ApiOperation("删除职称")
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     public RespBean deleteJobLevels(@RequestBody Integer integer){
         if (joblevelService.removeById(integer)){
             return RespBean.success("成功");
@@ -56,7 +57,7 @@ public class JoblevelController {
         return RespBean.error("失败");
     }
     @ApiOperation("批量删除职称")
-    @PutMapping("/")
+    @DeleteMapping("/")
     public RespBean deleteJobLevelsByIds(@RequestBody Integer integers){
         if (joblevelService.removeByIds(Arrays.asList(integers))){
             return RespBean.success("成功");
