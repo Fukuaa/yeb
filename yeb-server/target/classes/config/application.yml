@@ -52,19 +52,19 @@ spring:
         min-idle: 5
 
   # rabbitmq配置
-  #rabbitmq:
+  rabbitmq:
     # 用户名
-    #username: guest
+    username: admin
     # 密码
-    #password: guest
+    password: admin
     # 服务器地址
-    #host: 192.168.10.100
+    host: 192.168.23.132
     # 端口
-    #port: 5672
+    port: 5672
     #消息确认回调
-    #publisher-confirm-type: correlated
+    publisher-confirm-type: correlated
     #消息失败回调
-    #publisher-returns: true
+    publisher-returns: true
 
 # Mybatis-plus配置
 mybatis-plus:
