@@ -39,7 +39,7 @@ spring:
     #数据库
     database: 0
     #密码
-    password: 123456
+    #password: 123456
     lettuce:
       pool:
         #最大连接数，默认8
@@ -50,7 +50,6 @@ spring:
         max-idle: 200
         #最小空闲连接
         min-idle: 5
-
   # rabbitmq配置
   rabbitmq:
     # 用户名
