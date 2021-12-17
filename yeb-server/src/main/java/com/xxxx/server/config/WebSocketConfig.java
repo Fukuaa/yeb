@@ -39,7 +39,35 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-       registration.interceptors(new ChannelInterceptor() {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                // 判断是否为链接，如果是，需要获取token，并且设置用户对象
+                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+                    String token = accessor.getFirstNativeHeader("Auth-Token");
+                    if (!StringUtils.isEmpty(token)) {
+                        String authToken = token.substring(tokenHead.length());
+                        String username = jwtTokenUtil.getUserNameFromToken(authToken);
+                        // token中存在用户名
+                        if (!StringUtils.isEmpty(username)) {
+                            // 登录
+                            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                            // 验证token是否有效，重新设置用户对象
+                            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                                UsernamePasswordAuthenticationToken authenticationToken =
+                                        new UsernamePasswordAuthenticationToken(userDetails,
+                                                null, userDetails.getAuthorities());
+                                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                                accessor.setUser(authenticationToken);
+                            }
+                        }
+                    }
+                }
+                return message;
+            }
+        });
+       /*registration.interceptors(new ChannelInterceptor() {
            @Override
            public Message<?> preSend(Message<?> message, MessageChannel channel) {
                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message,StompHeaderAccessor.class);
@@ -60,7 +88,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                }
                return null;
            }
-       });
+       });*/
     }
 
     @Override

@@ -22,8 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private CustomUrlDecisionManager customUrlDecisionManager;
+
     @Autowired
     private IAdminService adminService;
     @Autowired
@@ -32,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Autowired
     private CustomFilter customFilter;
+    @Autowired
+    private CustomUrlDecisionManager customUrlDecisionManager;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
@@ -41,10 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/login",
+                "/websocket/**",
                 "/logout",
                 "/css/**",
                 "/js/**",
                 "/index.html",
+                "/img/**",
+                "/fonts/**",
                 "favicon.ico",
                 "/doc.html",
                 "/webjars/**",
@@ -57,37 +62,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //使用jwt
+        //使用JWT，不需要csrf
         http.csrf()
                 .disable()
+                //基于token，不需要session
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                //所有请求都要求认证
                 .anyRequest()
                 .authenticated()
+                //动态权限配置
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setAccessDecisionManager(customUrlDecisionManager);
-                        o.setSecurityMetadataSource(customFilter);
-                        return o;
+                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                        object.setAccessDecisionManager(customUrlDecisionManager);
+                        object.setSecurityMetadataSource(customFilter);
+                        return object;
                     }
                 })
                 .and()
+                //禁用缓存
                 .headers()
                 .cacheControl();
-        //jwt，登录授权过滤器
+        //添加jwt 登录授权过滤器
         http.addFilterBefore(jwtAuthencationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //添加自定义未授权和未登录结果返回
         http.exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)
                 .authenticationEntryPoint(restAuthorizationEntryPoint);
-
     }
 
     @Override
     @Bean
-    protected UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(){
         return username -> {
             Admin admin = adminService.getAdminByUserName(username);
             if (null!=admin){
@@ -97,12 +106,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             throw new UsernameNotFoundException("用户名或密码不正确");
         };
     }
+
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public JwtAuthencationTokenFilter jwtAuthencationTokenFilter(){
         return new JwtAuthencationTokenFilter();
     }
+
 }

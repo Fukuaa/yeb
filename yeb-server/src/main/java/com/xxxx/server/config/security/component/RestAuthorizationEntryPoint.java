@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-//未登录或eoken失效时，自定义返回结果
+//未登录或token失效时，自定义返回结果
 @Component
 public class RestAuthorizationEntryPoint implements AuthenticationEntryPoint {
     @Override
@@ -19,7 +19,7 @@ public class RestAuthorizationEntryPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        RespBean bean = RespBean.error("权限不足");
+        RespBean bean = RespBean.error("尚未登录，请登录！");
         bean.setCode(401);
         out.write(new ObjectMapper().writeValueAsString(bean));
         out.flush();

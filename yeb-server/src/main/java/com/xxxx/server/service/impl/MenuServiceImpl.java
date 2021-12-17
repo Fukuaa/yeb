@@ -32,9 +32,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     public List<Menu> getMenusByAdminId() {
         Integer adminId = ((Admin)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         ValueOperations<String,Object> valueOperations = redisTemplate.opsForValue();
+        //从redis获取菜单数据
         List menus = (List<Menu>) valueOperations.get("menu_"+adminId);
+        //如果为空，去数据库获取
         if (CollectionUtils.isEmpty(menus)){
             menus = menuMapper.getMenusByAdminId(adminId);
+            //将数据设置到Redis中
             valueOperations.set("menu_"+adminId,menus);
         }
         return menus;
