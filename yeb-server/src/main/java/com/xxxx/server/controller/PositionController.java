@@ -58,7 +58,7 @@ public class PositionController {
     }
     @ApiOperation("批量删除职位信息")
     @DeleteMapping ("/")
-    public RespBean deletePositionByIds(@PathVariable Integer[] ids){
+    public RespBean deletePositionByIds(Integer[] ids){
         if (positionService.removeByIds(Arrays.asList(ids))){
             return RespBean.success("删除成功");
         }

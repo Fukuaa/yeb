@@ -50,16 +50,17 @@ public class JoblevelController {
     }
     @ApiOperation("删除职称")
     @DeleteMapping("/{id}")
-    public RespBean deleteJobLevels(@RequestBody Integer integer){
-        if (joblevelService.removeById(integer)){
+    public RespBean deleteJobLevels(@PathVariable Integer id){
+        if (joblevelService.removeById(id)){
             return RespBean.success("成功");
         }
         return RespBean.error("失败");
     }
     @ApiOperation("批量删除职称")
     @DeleteMapping("/")
-    public RespBean deleteJobLevelsByIds(@RequestBody Integer integers){
-        if (joblevelService.removeByIds(Arrays.asList(integers))){
+    public RespBean deleteJobLevelsByIds(Integer[] ids){
+        System.out.println(ids);
+        if (joblevelService.removeByIds(Arrays.asList(ids))){
             return RespBean.success("成功");
         }
         return RespBean.error("失败");

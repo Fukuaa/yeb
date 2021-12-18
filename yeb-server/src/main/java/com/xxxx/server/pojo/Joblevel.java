@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false,of="name")
 @Accessors(chain = true)
 @TableName("t_joblevel")
-@ApiModel(value="Joblevel对象", description="")
+@ApiModel(value="Joblevel对象", description="职称等级表")
 public class Joblevel implements Serializable {
 
     private static final long serialVersionUID = 1L;
