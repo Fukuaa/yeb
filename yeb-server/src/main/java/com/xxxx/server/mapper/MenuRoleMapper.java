@@ -14,5 +14,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MenuRoleMapper extends BaseMapper<MenuRole> {
 
-    Integer insertRecord(@Param("rid") Integer rid,@Param("mid") Integer[] mids);
+    Integer insertRecord(@Param("rid") Integer rid,@Param("mids") Integer[] mids);
 }
