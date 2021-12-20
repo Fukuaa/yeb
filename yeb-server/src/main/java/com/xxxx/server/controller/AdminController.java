@@ -39,12 +39,12 @@ public class AdminController {
         return RespBean.error("失败");
     }
     @ApiOperation("删除操作员")
-    @DeleteMapping("/")
+    @DeleteMapping("/{id}")
     public RespBean deleteAdmin(@PathVariable Integer id){
         if(adminService.removeById(id)){
-            return RespBean.success("更新成功");
+            return RespBean.success("删除成功");
         }
-        return RespBean.error("失败");
+        return RespBean.error("删除失败");
     }
     @Autowired
     private IRoleService roleService;
