@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,9 +31,8 @@ import java.util.stream.Collectors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("t_admin")
-@ApiModel(value="Admin对象", description="")
+@ApiModel(value="Admin对象", description="管理员表")
 public class Admin implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -54,8 +52,9 @@ public class Admin implements Serializable, UserDetails {
 
     @ApiModelProperty(value = "联系地址")
     private String address;
+
+    @ApiModelProperty(value = "是否启用1 0 ")
     @Getter(AccessLevel.NONE)
-    @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
     @ApiModelProperty(value = "用户名")
@@ -98,6 +97,6 @@ public class Admin implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

@@ -77,9 +77,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Admin getAdminByUserName(String username) {
-        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username)
-                .eq("enabled",true)
-        );
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username).eq("enabled",true));
     }
     @Autowired
     private RoleMapper roleMapper;
@@ -96,10 +94,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Autowired
     private AdminRoleMapper adminRoleMapper;
     @Override
-    public RespBean updateAdminRole(Integer adminId, Integer[] rdis) {
+    public RespBean updateAdminRole(Integer adminId, Integer[] rids) {
         adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId",adminId));
-        Integer result = adminRoleMapper.updateAdminRole(adminId,rdis);
-        if (rdis.length==result){
+        Integer result = adminRoleMapper.updateAdminRole(adminId,rids);
+        if (rids.length==result){
             return RespBean.success("更新成功");
         }
         return RespBean.error("更新失败");

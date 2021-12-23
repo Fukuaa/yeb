@@ -15,5 +15,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
-    Integer updateAdminRole(@Param("adminId") Integer adminId,@Param("rids") Integer[] rdis);
+    Integer updateAdminRole(@Param("adminId") Integer adminId,@Param("rids") Integer[] rids);
 }

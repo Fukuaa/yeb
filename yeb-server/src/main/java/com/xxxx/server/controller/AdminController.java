@@ -30,13 +30,13 @@ public class AdminController {
     public List<Admin> getAllAdmin(String keywords){
         return adminService.getAllAdmin(keywords);
     }
-    @ApiOperation("添加操作员")
+    @ApiOperation("更新操作员")
     @PutMapping("/")
     public RespBean updateAdmin(@RequestBody Admin admin){
         if(adminService.updateById(admin)){
             return RespBean.success("更新成功");
         }
-        return RespBean.error("失败");
+        return RespBean.error("更新失败");
     }
     @ApiOperation("删除操作员")
     @DeleteMapping("/{id}")
@@ -55,8 +55,8 @@ public class AdminController {
     }
     @ApiOperation(value = "更新操作员角色")
     @PutMapping("/role")
-    public RespBean updateAdminRole(Integer adminId,Integer[] rdis){
-        return adminService.updateAdminRole(adminId,rdis);
+    public RespBean updateAdminRole(Integer adminId,Integer[] rids){
+        return adminService.updateAdminRole(adminId,rids);
 
     }
 }
