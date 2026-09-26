@@ -1,2 +1,6 @@
 # 项目排除路径
 /yeb-generator/target/
+**/target/
+**/node_modules/
+**/dist/
+/.vscode/
