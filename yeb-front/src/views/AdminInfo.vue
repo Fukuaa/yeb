@@ -5,20 +5,20 @@
         <span>{{ admin.name }}</span>
       </div>
       <div>
-        <div>
-          <div style="display: flex;justify-content: center;">
-            <img title="点击修改用户头像" :src="admin.userFace" style="height: 100px;width: 100px;border-radius: 50px;" alt="">
+        <div class="profileBody">
+          <div class="profileFace">
+            <img title="点击修改用户头像" :src="admin.userFace" alt="">
           </div>
-          <div>电话号码：
+          <div class="infoLine">电话号码：
             <el-tag>{{ admin.telephone }}</el-tag>
           </div>
-          <div>手机号码：
+          <div class="infoLine">手机号码：
             <el-tag>{{ admin.phone }}</el-tag>
           </div>
-          <div>居住地址：
+          <div class="infoLine">居住地址：
             <el-tag>{{ admin.address }}</el-tag>
           </div>
-          <div>用户标签：
+          <div class="infoLine">用户标签：
             <el-tag type="success" v-for="(r,index) in admin.roles" :key="index">{{ r.nameZh }}</el-tag>
           </div>
         </div>
@@ -208,5 +208,33 @@ export default {
 </script>
 
 <style scoped>
+.box-card {
+  border-radius: 18px;
+}
 
+.profileFace {
+  display: flex;
+  justify-content: center;
+}
+
+.profileFace img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f3efe7;
+}
+
+.infoLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  color: #5c675f;
+}
+
+.profileBody + div {
+  margin-top: 18px;
+}
 </style>

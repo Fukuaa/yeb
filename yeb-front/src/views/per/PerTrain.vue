@@ -1,18 +1,15 @@
 <template>
-  <div>
-    员工培训
-  </div>
+  <page-placeholder title="员工培训"/>
 </template>
 <script>
+import PagePlaceholder from "@/components/PagePlaceholder";
+
 export default {
   name: "PerTrain",
+  components: {PagePlaceholder},
   data() {
     return {}
   },
   methods: {}
 }
 </script>
-
-<style scoped>
-
-</style>

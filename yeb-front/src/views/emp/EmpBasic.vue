@@ -58,7 +58,7 @@
       <!-- 30-2 绑定搜索条件数据 v-model="searchValue.xxxxx" -->
       <transition name="slide-fade">
         <div v-show="showAdvanceSearchVisible"
-             style="border: 1px solid #379ff5;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0;">
+             style="border: 1px solid #e4d3bc;border-radius: 12px;box-sizing: border-box;padding: 12px;margin: 12px 0;background: #fffdf9;">
           <el-row>
             <el-col :span="5">
               政治面貌：

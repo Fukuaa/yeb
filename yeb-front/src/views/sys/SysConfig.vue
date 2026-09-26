@@ -1,18 +1,15 @@
 <template>
-  <div>
-    系统管理
-  </div>
+  <page-placeholder title="系统管理"/>
 </template>
 <script>
+import PagePlaceholder from "@/components/PagePlaceholder";
+
 export default {
   name: "SysConfig",
+  components: {PagePlaceholder},
   data() {
     return {}
   },
   methods: {}
 }
 </script>
-
-<style scoped>
-
-</style>

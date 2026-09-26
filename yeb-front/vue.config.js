@@ -1,10 +1,18 @@
+// webpack-dev-server 3 在新版 Node 上遇到浏览器断开时会抛出未处理的 ECONNRESET，直接退出。
+process.on('uncaughtException', (err) => {
+    if (err && (err.code === 'ECONNRESET' || err.code === 'EPIPE')) {
+        return
+    }
+    throw err
+})
+
 let proxyObj = {} // 代理对象
 
 proxyObj['/'] = {
     // websocket
     ws: false,
     // 代理目标地址
-    target: 'http://localhost:8081',
+    target: 'http://localhost:8080',
     // 发送请求头 host 会被设置 target
     changeOrigin: true,
     // 不重写请求地址
@@ -16,7 +24,7 @@ proxyObj['/'] = {
 // 在线聊天 代理
 proxyObj['/ws'] = {
     ws: true,
-    target: 'ws://localhost:8081'
+    target: 'ws://localhost:8080'
 }
 
 
@@ -26,5 +34,11 @@ module.exports = {
         host: 'localhost',
         port: 8080,
         proxy: proxyObj // 代理
+    },
+    chainWebpack: config => {
+        config.plugin('html').tap(args => {
+            args[0].title = '云E办'
+            return args
+        })
     }
 }

@@ -189,15 +189,16 @@ export default {
 <style>
 /* 7 */
 .admin-container {
-  margin-top: 10px;
+  margin-top: 16px;
   display: flex;
-  justify-content: space-around; /* 在弹性盒对象的 <div> 元素中的各项周围留有空白：*/
-  flex-wrap: wrap; /* 自动换行 */
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .admin-card {
-  width: 350px;
-  margin-bottom: 20px;
+  width: 320px;
+  margin: 8px;
+  border-radius: 16px;
 }
 
 .userFace-img {
@@ -214,7 +215,9 @@ export default {
 }
 
 .userinfo-container {
-  font-size: 12px;
-  color: #3e9ef5;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: #3c4744;
 }
 </style>

@@ -1,18 +1,15 @@
 <template>
- <div>
-   员工积分统计
- </div>
+  <page-placeholder title="员工积分统计"/>
 </template>
 <script>
+import PagePlaceholder from "@/components/PagePlaceholder";
+
 export default {
-name: "StaScore",
-  data () {
+  name: "StaScore",
+  components: {PagePlaceholder},
+  data() {
     return {}
   },
   methods: {}
 }
 </script>
-
-<style scoped>
-
-</style>

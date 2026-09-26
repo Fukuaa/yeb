@@ -38,13 +38,14 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  margin: 20px 100px;
-  //margin: 20px auto;
-  width: 800px;
-  height: 600px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 920px;
+  height: calc(100vh - 210px);
+  min-height: 420px;
   overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid #c8c9c9;
+  border-radius: 16px;
+  border: 1px solid #d9d3c8;
   .sidebar, .main {
     height: 100%;
   }
