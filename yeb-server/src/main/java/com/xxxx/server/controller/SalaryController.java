@@ -42,7 +42,7 @@ public class SalaryController {
         return RespBean.error("添加失败");
     }
     @ApiOperation("删除工资账套")
-    @DeleteMapping("/{1}")
+    @DeleteMapping("/{id}")
     public RespBean deleteSalary(@PathVariable Integer id){
         if (salaryService.removeById(id)){
             return RespBean.success("成功");
@@ -51,7 +51,7 @@ public class SalaryController {
     }
     @ApiOperation("更新员工账套")
     @PutMapping("/")
-    public RespBean updateSalary(@PathVariable Salary salary){
+    public RespBean updateSalary(@RequestBody Salary salary){
         if (salaryService.updateById(salary)){
             return RespBean.success("成功");
         }

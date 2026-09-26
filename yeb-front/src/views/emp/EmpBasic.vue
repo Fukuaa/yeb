@@ -190,7 +190,7 @@
             width="40">
         </el-table-column>
         <el-table-column
-            prop="workId"
+            prop="workID"
             label="工号"
             align="left"
             width="85">
@@ -497,8 +497,8 @@
           </el-row>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="工号：" prop="workId">
-                <el-input v-model="emp.workId" placeholder="请输入工号" size="mini" style="width: 150px;"
+              <el-form-item label="工号：" prop="workID">
+                <el-input v-model="emp.workID" placeholder="请输入工号" size="mini" style="width: 150px;"
                           prefix-icon="el-icon-edit" disabled></el-input>
               </el-form-item>
             </el-col>
@@ -673,10 +673,10 @@ export default {
         school: '',
         beginDate: '',
         workState: '在职',
-        workId: '',
+        workID: '',
         contractTerm: null,
         conversionTime: '',
-        notworkDate: null,
+        notWorkDate: null,
         beginContract: '',
         endContract: '',
         workAge: null,
@@ -724,10 +724,10 @@ export default {
         school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
         beginDate: [{required: true, message: '请输入入职日期', trigger: 'blur'}],
         workState: [{required: true, message: '请输入工作状态', trigger: 'blur'}],
-        workId: [{required: true, message: '请输入工号', trigger: 'blur'}],
+        workID: [{required: true, message: '请输入工号', trigger: 'blur'}],
         contractTerm: [{required: true, message: '请输入合同期限', trigger: 'blur'}],
         conversionTime: [{required: true, message: '请输入转正日期', trigger: 'blur'}],
-        notworkDate: [{required: true, message: '请输入离职日期', trigger: 'blur'}],
+        notWorkDate: [{required: true, message: '请输入离职日期', trigger: 'blur'}],
         beginContract: [{required: true, message: '请输入合同起始日期', trigger: 'blur'}],
         endContract: [{required: true, message: '请输入合同结束日期', trigger: 'blur'}],
         workAge: [{required: true, message: '请输入工龄', trigger: 'blur'}]
@@ -769,7 +769,7 @@ export default {
     showEmpView(data) {
       this.title = '编辑员工信息'
       this.emp = data // 回显数据
-      this.inputDepName = data.department.name // 25-7 回显部门信息
+      this.inputDepName = data.department ? data.department.name : '' // 25-7 回显部门信息
       this.initPositions() // 25-9 初始化职位信息
       this.dialogVisible = true
     },
@@ -780,7 +780,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRequest('/employee/basic/' + data.id).then(resp => {
+        this.deleteRequest('/employee/basic/', data.id).then(resp => {
           if (resp) {
             this.initEmps()
           }
@@ -846,15 +846,15 @@ export default {
     },
     // 23-13 添加员工 获取最大号
     getMaxWorkID() {
-      this.getRequest('/employee/basic/maxWorkID').then(resp => {
+      this.getRequest('/employee/basic/maxWordID').then(resp => {
         if (resp) {
-          this.emp.workId = resp.obj
+          this.emp.workID = resp.obj
         }
       })
     },
     // 23-11、 添加员工 获取职位 有可能变动 打开对话框的时候调用此方法
     initPositions() {
-      this.getRequest('/employee/basic/Positions').then(resp => {
+      this.getRequest('/employee/basic/positions').then(resp => {
         if (resp) {
           this.positions = resp
         }
@@ -902,11 +902,11 @@ export default {
         this.getRequest('/employee/basic/deps').then(resp => {
           if (resp) {
             this.allDeps = resp
-            window.sessionStorage.setItem('allDeps', JSON.parse(resp))
+            window.sessionStorage.setItem('allDeps', JSON.stringify(resp))
           }
         })
       } else {
-        this.allDeps = window.sessionStorage.getItem('allDeps')
+        this.allDeps = JSON.parse(window.sessionStorage.getItem('allDeps'))
       }
     },
     // 23-4、添加员点击事件
@@ -934,10 +934,10 @@ export default {
         school: '',
         beginDate: '',
         workState: '在职',
-        workId: '',
+        workID: '',
         contractTerm: null,
         conversionTime: '',
-        notworkDate: null,
+        notWorkDate: null,
         beginContract: '',
         endContract: '',
         workAge: null,

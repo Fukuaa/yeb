@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item prop="code">
         <el-input type="text" auto-complete="false" v-model="loginForm.code" placeholder="点击图片更换验证码"
-                  style="width: 250px;margin-right: 5px;"></el-input>
+                  class="captchaInput"></el-input>
         <img :src="captchaUrl" @click="updateCaptcha">
       </el-form-item>
       <el-checkbox v-model="checked" class="loginRemember">记住我</el-checkbox>
@@ -94,9 +94,10 @@ export default {
 .loginContainer {
   border-radius: 15px;
   background-clip: padding-box;
-  /*属性规定背景的绘制区域 背景被裁剪到内边距框。 margin: 180 px auto;*/
-  margin: 180px auto;
-  width: 350px;
+  box-sizing: border-box;
+  margin: 8vh auto;
+  width: 420px;
+  max-width: calc(100vw - 24px);
   padding: 15px 35px;
   background: #fff;
   border: 1px solid #eaeaea;
@@ -114,8 +115,19 @@ export default {
 }
 
 /*验证码*/
-.el-form-item__content {
+.loginContainer .el-form-item__content {
   display: flex;
   align-items: center;
+}
+.loginContainer .captchaInput {
+  flex: 1;
+  min-width: 0;
+  margin-right: 5px;
+}
+.loginContainer .el-form-item__content img {
+  flex: none;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
 }
 </style>

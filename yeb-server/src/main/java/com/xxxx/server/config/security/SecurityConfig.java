@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/login",
+                "/",
                 "/websocket/**",
                 "/logout",
                 "/css/**",
@@ -50,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/index.html",
                 "/img/**",
                 "/fonts/**",
-                "favicon.ico",
+                "/favicon.ico",
                 "/doc.html",
                 "/webjars/**",
                 "/swagger-resources/**",

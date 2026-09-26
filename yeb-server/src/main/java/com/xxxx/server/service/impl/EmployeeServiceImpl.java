@@ -45,8 +45,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Override
     public RespBean maxWordID() {
-        List<Map<String,Object>> maps = employeeMapper.selectMaps(new QueryWrapper<Employee>().select("max(workID"));
-        return RespBean.success(null,String.format("%08d",Integer.parseInt(maps.get(0).get("max(workID").toString())+1));
+        List<Map<String,Object>> maps = employeeMapper.selectMaps(new QueryWrapper<Employee>().select("MAX(workID) AS maxWorkID"));
+        Object maxWorkID = maps.isEmpty() ? null : maps.get(0).get("maxWorkID");
+        int nextWorkID = maxWorkID == null ? 1 : Integer.parseInt(maxWorkID.toString()) + 1;
+        return RespBean.success(null, String.format("%08d", nextWorkID));
     }
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -86,11 +88,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
 
     @Override
-    public List<Salary> getEmployeeWithSalary(Integer currentPage, Integer size) {
+    public RespPageBean getEmployeeWithSalary(Integer currentPage, Integer size) {
         Page<Employee> page = new Page<>(currentPage,size);
         IPage<Employee> iPage = employeeMapper.getEmployeeWithSalary(page);
-        RespPageBean respPageBean = new RespPageBean(iPage.getTotal(),iPage.getRecords());
-        return null;
+        return new RespPageBean(iPage.getTotal(), iPage.getRecords());
     }
 
 }

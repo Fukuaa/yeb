@@ -63,7 +63,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRequest('/system/basic/permission/role/' + role.id).then(resp => {
+        this.deleteRequest('/system/basic/permiss/role/' + role.id).then(resp => {
           if (resp) {
             this.initRoles()
           }
@@ -79,7 +79,7 @@ export default {
     // 添加角色
     doAddRole(){
       if (this.role.name && this.role.nameZh) {
-        this.postRequest('/system/basic/permission/role',this.role).then(resp=>{
+        this.postRequest('/system/basic/permiss/',this.role).then(resp=>{
           if (resp) {
             this.initRoles()
             this.role.name = ''
@@ -100,7 +100,7 @@ export default {
       let tree = this.$refs.treeRef[index] // 获取引用对象和索引
       let selectedKeys = tree.getCheckedKeys(true) // 获取选中的节点数组,true 仅返回被选中的叶子节点的 keys,如三级分类
       // console.log(selectedKeys)
-      let url = '/system/basic/permission/?rid=' + rid
+      let url = '/system/basic/permiss/?rid=' + rid
       selectedKeys.forEach(key => {
         // 循环遍历出数组 id ，拼接在一起
         url += '&mids=' + key
@@ -121,7 +121,7 @@ export default {
     },
     // 获取所有选中的菜单
     initSelectedMenus(rid) { // :name="r.id"  change(rid)
-      this.getRequest('/system/basic/permission/mid/' + rid).then(resp => {
+      this.getRequest('/system/basic/permiss/menus/' + rid).then(resp => {
         if (resp) {
           this.selectedMenus = resp
         }
@@ -129,7 +129,7 @@ export default {
     },
     // 获取所有菜单
     initAllMenus() {
-      this.getRequest('/system/basic/permission/menus').then(resp => {
+      this.getRequest('/system/basic/permiss/menus').then(resp => {
         if (resp) {
           this.allMenus = resp
         }
@@ -137,7 +137,7 @@ export default {
     },
     // 获取所有角色
     initRoles() {
-      this.getRequest('/system/basic/permission/').then(resp => {
+      this.getRequest('/system/basic/permiss/').then(resp => {
         if (resp) {
           this.roles = resp
         }

@@ -206,7 +206,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRequest(' /system/basic/joblevel/' + data.id).then(resp => {
+        this.deleteRequest('/system/basic/joblevel/' + data.id).then(resp => {
           if (resp) {
             this.initJls()
           }

@@ -27,5 +27,5 @@ public interface IEmployeeService extends IService<Employee> {
 
     List<Employee> getEmployee(Integer id);
 
-    List<Salary> getEmployeeWithSalary(Integer currentPage, Integer size);
+    RespPageBean getEmployeeWithSalary(Integer currentPage, Integer size);
 }

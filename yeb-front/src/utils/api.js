@@ -29,16 +29,22 @@ axios.interceptors.response.use(success => {
     }
     return success.data
 }, error => { // 没访问到后端接口
-    if (error.response.code === 504 || error.response.code === 404) {
+    // 网络中断时没有 response，直接读取 response.code 会再次抛错。
+    const response = error.response
+    if (!response) {
+        Message.error({message: '无法连接服务器，请检查服务是否正在运行'})
+        return
+    }
+    if (response.status === 504 || response.status === 404) {
         Message.error({message: '服务器被吃掉了'})
-    } else if (error.response.code === 403) {
+    } else if (response.status === 403) {
         Message.error({message: '权限不足，请联系管理员！'})
-    } else if (error.response.code === 401) {
+    } else if (response.status === 401) {
         Message.error({message: '您还未登录，请登录！'})
         router.replace('/') // 路由替换
     } else {
-        if (error.response.data.message) {
-            Message.error({message: error.response.data.message})
+        if (response.data && response.data.message) {
+            Message.error({message: response.data.message})
         } else {
             Message.error({message: '未知错误！'})
         }

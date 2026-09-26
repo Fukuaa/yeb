@@ -18,7 +18,7 @@
           width="120">
       </el-table-column>
       <el-table-column
-          prop="workId"
+          prop="workID"
           label="工号"
           align="left"
           width="120">
@@ -159,7 +159,7 @@ export default {
     // 2-10
     hidePop(data) { // 隐藏时触发
       // 当前员工工资账套存在 并且不等于当前的 才更新
-      if (this.currentSalary && this.currentSalary!==data.salary.id) {
+      if (this.currentSalary && this.currentSalary !== data.salaryId) {
         this.putRequest('/salary/sobcfg/?eid=' + data.id + '&sid=' + this.currentSalary).then(resp => {
           if (resp) {
             this.initEmps()

@@ -26,7 +26,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Value("{tokenHead}")
+    @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

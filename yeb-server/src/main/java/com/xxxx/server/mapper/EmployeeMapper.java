@@ -23,5 +23,5 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
 
     List<Employee> getEmployee(Integer id);
 
-    Page getEmployeeWithSalary(Page<Employee> page);
+    IPage<Employee> getEmployeeWithSalary(Page<Employee> page);
 }

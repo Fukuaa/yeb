@@ -3,13 +3,16 @@ import {getRequest} from "@/utils/api";
 // 菜单请求工具类
 
 // router 路由； store Vuex
+let loadingMenu = null
+
 export const initMenu = (router, store) => {
     // 如果有数据，初始化路由菜单
     if (store.state.routes.length > 0) {
-        return;
+        return Promise.resolve(true);
     }
 
-    getRequest('/system/cfg/menu').then(data => {
+    if (loadingMenu) return loadingMenu
+    loadingMenu = getRequest('/system/cfg/menu').then(data => {
         // 如果数据存在 格式化路由
         if (data) {
             // 格式化好路由
@@ -18,10 +21,11 @@ export const initMenu = (router, store) => {
             router.addRoutes(fmtRoutes)
             // 将数据存入 Vuex
             store.commit('initRoutes',fmtRoutes)
-            // 连接 WebSocket
-            store.dispatch('connect')
+            return true
         }
-    })
+        return false
+    }).finally(() => { loadingMenu = null })
+    return loadingMenu
 }
 
 export const formatRoutes = (routes) => {
@@ -46,19 +50,21 @@ export const formatRoutes = (routes) => {
             iconCls: iconCls,
             children: children,
             component(resolve) {
+                // 数据库里的旧组件名与教材前端文件名不同。
+                const view = component === 'SysCfg' ? 'SysConfig' : component
                 // 判断组件以什么开头，到对应的目录去找
-                if (component.startsWith('Home')) {
-                    require(['@/views/' + component + '.vue'], resolve);
-                }else if (component.startsWith('Emp')) {
-                    require(['@/views/emp/' + component + '.vue'], resolve);
-                }else if (component.startsWith('Per')) {
-                    require(['@/views/per/' + component + '.vue'], resolve);
-                }else if (component.startsWith('Sal')) {
-                    require(['@/views/sal/' + component + '.vue'], resolve);
-                }else if (component.startsWith('Sta')) {
-                    require(['@/views/sta/' + component + '.vue'], resolve);
-                }else if (component.startsWith('Sys')) {
-                    require(['@/views/sys/' + component + '.vue'], resolve);
+                if (view.startsWith('Home')) {
+                    require(['@/views/' + view + '.vue'], resolve);
+                }else if (view.startsWith('Emp')) {
+                    require(['@/views/emp/' + view + '.vue'], resolve);
+                }else if (view.startsWith('Per')) {
+                    require(['@/views/per/' + view + '.vue'], resolve);
+                }else if (view.startsWith('Sal')) {
+                    require(['@/views/sal/' + view + '.vue'], resolve);
+                }else if (view.startsWith('Sta')) {
+                    require(['@/views/sta/' + view + '.vue'], resolve);
+                }else if (view.startsWith('Sys')) {
+                    require(['@/views/sys/' + view + '.vue'], resolve);
                 }
             }
         }
