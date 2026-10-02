@@ -33,13 +33,13 @@ spring:
     #超时时间
     timeout: 10000ms
     #服务器地址
-    host: 192.168.23.132
+    host: ${REDIS_HOST:192.168.240.10}
     #服务器端口
-    port: 6379
+    port: ${REDIS_PORT:6379}
     #数据库
     database: 0
     #密码
-    #password: 123456
+    password: ${REDIS_PASSWORD:}
     lettuce:
       pool:
         #最大连接数，默认8

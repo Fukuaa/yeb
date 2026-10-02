@@ -31,8 +31,23 @@ if (-not (Test-Path (Join-Path $dist 'index.html'))) {
     throw '找不到 yeb-front\dist\index.html，请先构建前端。'
 }
 
+$localEnvironment = Join-Path $PSScriptRoot '.env.local'
+if (Test-Path -LiteralPath $localEnvironment) {
+    foreach ($line in Get-Content -LiteralPath $localEnvironment) {
+        if ([string]::IsNullOrWhiteSpace($line) -or $line.TrimStart().StartsWith('#')) {
+            continue
+        }
+        $parts = $line -split '=', 2
+        if ($parts.Count -ne 2 -or $parts[0] -notin @('REDIS_HOST', 'REDIS_PORT', 'REDIS_PASSWORD')) {
+            throw 'dev/.env.local 仅支持 REDIS_HOST、REDIS_PORT、REDIS_PASSWORD，格式为 NAME=value。'
+        }
+        if ($null -eq [Environment]::GetEnvironmentVariable($parts[0], 'Process')) {
+            [Environment]::SetEnvironmentVariable($parts[0], $parts[1], 'Process')
+        }
+    }
+}
+
 $env:JAVA_HOME = 'C:\Program Files\Java\jdk1.8.0_202'
-$env:SPRING_REDIS_HOST = '127.0.0.1'
 $env:SERVER_PORT = '8080'
 $env:SPRING_WEB_RESOURCES_STATIC_LOCATIONS = 'file:///' + ($dist -replace '\\', '/') + '/'
 $maven = 'C:\Program Files\JetBrains\IntelliJ IDEA 2022.2.1\plugins\maven\lib\maven3\bin\mvn.cmd'
