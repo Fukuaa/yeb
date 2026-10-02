@@ -41,10 +41,10 @@ router.beforeEach((to, from, next) => {
             }
             window.sessionStorage.setItem('user', JSON.stringify(user))
             store.commit('INIT_ADMIN', user)
-            if (needsMenu) store.dispatch('connect').catch(() => {})
+            if (store.state.chatConnection === 'disconnected') store.dispatch('connect').catch(() => {})
             // 新增动态路由后重新匹配当前地址，保证刷新子页面也能打开。
             next(needsMenu ? {...to, replace: true} : undefined)
-        }).catch(() => next('/'))
+        }).catch(() => { store.dispatch('disconnect'); next('/') })
     } else {
         if (to.path === '/') {
             next()

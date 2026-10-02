@@ -40,7 +40,10 @@
             <div class="headerTitle">{{ pageTitle }}</div>
           </div>
           <div class="headerRight">
-            <el-button class="bellBtn" icon="el-icon-bell" circle @click="goChar"></el-button>
+            <el-button v-if="canManageMail" icon="el-icon-message" circle title="邮件发送记录" @click="$router.push('/mail')"></el-button>
+            <el-badge :value="unreadCount" :hidden="!unreadCount" :max="99">
+              <el-button class="bellBtn" icon="el-icon-chat-dot-round" circle title="在线聊天" @click="goChar"></el-button>
+            </el-badge>
             <el-dropdown class="userInfo" @command="commandHandler">
               <span class="el-dropdown-link">
                 <img :src="user.userFace" alt="">
@@ -91,6 +94,8 @@ export default {
     }
   },
   computed: {
+    unreadCount() { return Object.values(this.$store.state.idDot).reduce((total, count) => total + Number(count || 0), 0) },
+    canManageMail() { return (this.user.roles || []).some(role => role.name === 'ROLE_admin') },
     routes() {
       return this.$store.state.routes
     },
@@ -138,9 +143,11 @@ export default {
           type: 'warning'
         }).then(() => {
           this.postRequest('/logout')
+          this.$store.dispatch('disconnect')
           window.sessionStorage.removeItem('tokenStr')
           window.sessionStorage.removeItem('user')
           this.$store.commit('initRoutes', [])
+          this.$store.commit('INIT_ADMIN', null)
           this.$router.replace('/')
         }).catch(() => {
           this.$message({

@@ -5,7 +5,7 @@
   		<p class="name">{{user.name}}</p>
   	</header>
   	<footer>
-  		<input class="search" type="text" v-model="$store.state.filterKey" placeholder="search user...">
+    <input class="search" type="text" v-model="$store.state.filterKey" placeholder="搜索联系人">
   	</footer>
   </div>
 </template>

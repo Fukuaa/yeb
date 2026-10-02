@@ -52,10 +52,11 @@ spring:
         min-idle: 5
   # rabbitmq配置
   rabbitmq:
+    virtual-host: ${RABBITMQ_VHOST:/}
     # 用户名
-    username: admin
+    username: ${RABBITMQ_USER:admin}
     # 密码
-    password: admin
+    password: ${RABBITMQ_PASSWORD:}
     # 服务器地址
     host: ${RABBITMQ_HOST:192.168.240.10}
     # 端口
@@ -90,3 +91,12 @@ jwt:
   expiration: 604800
   # JWT 负载中拿到开头
   tokenHead: Bearer
+
+app:
+  websocket:
+    allowed-origins: ${WEBSOCKET_ALLOWED_ORIGINS:http://localhost:8080,http://127.0.0.1:8080,http://localhost:8081,http://127.0.0.1:8081}
+  mail:
+    queue: ${MAIL_QUEUE:mail.queue}
+    exchange: ${MAIL_EXCHANGE:mail.exchange}
+    routing-key: ${MAIL_ROUTING_KEY:mail.routing.key}
+    dispatch-enabled: ${MAIL_DISPATCH_ENABLED:true}

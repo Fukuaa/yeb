@@ -8,6 +8,8 @@ import com.xxxx.server.mapper.EmployeeMapper;
 import com.xxxx.server.mapper.MailLogMapper;
 import com.xxxx.server.pojo.*;
 import com.xxxx.server.service.IEmployeeService;
+import com.xxxx.server.service.MailOutboxService;
+import org.springframework.transaction.annotation.Transactional;
 import javafx.scene.input.DataFormat;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -54,7 +56,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private MailLogMapper mailLogMapper;
+    @Autowired
+    private MailOutboxService mailOutbox;
     @Override
+    @Transactional
     public RespBean addEmp(Employee employee) {
         LocalDate beginContract = employee.getBeginContract();
         LocalDate endContract = employee.getEndContract();
@@ -62,20 +67,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         DecimalFormat decimalFormat = new DecimalFormat("##.00");
         employee.setContractTerm(Double.parseDouble(decimalFormat.format(days/365.00)));
         if(1==employeeMapper.insert(employee)){
-            Employee emp = employeeMapper.getEmployee(employee.getId()).get(0);
-            String s = UUID.randomUUID().toString();
-            MailLog mailLog = new MailLog();
-            mailLog.setMsgId(s);
-            mailLog.setEid(employee.getId());
-            mailLog.setStatus(0);
-            mailLog.setRouteKey(MailConstants.MAIL_ROUTING_KEY_NAME);
-            mailLog.setExchange(MailConstants.MAIL_EXCHANGE_NAME);
-            mailLog.setCount(0);
-            mailLog.setTryTime(LocalDateTime.now().plusMinutes(MailConstants.MSG_TIMEOUT));
-            mailLog.setCreateTime(LocalDateTime.now());
-            mailLog.setUpdateTime(LocalDateTime.now());
-            rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,MailConstants.MAIL_ROUTING_KEY_NAME,emp,new CorrelationData(s));
-            mailLogMapper.insert(mailLog);
+            mailOutbox.enqueueWelcome(employee.getId());
             return RespBean.success("成功");
         }
         return RespBean.error("失败");

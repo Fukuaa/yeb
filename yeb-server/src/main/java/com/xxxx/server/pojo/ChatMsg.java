@@ -10,8 +10,11 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @Accessors(chain = true)
 public class ChatMsg {
+    private Long id;
     private String from;
     private String to;
+    private String content;
     private LocalDateTime date;
-    private String forNickName;
+    private String fromNickName;
+    private Boolean read;
 }

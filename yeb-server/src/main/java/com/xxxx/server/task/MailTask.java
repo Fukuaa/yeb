@@ -1,39 +1,15 @@
 package com.xxxx.server.task;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.xxxx.server.pojo.Employee;
-import com.xxxx.server.pojo.MailConstants;
-import com.xxxx.server.pojo.MailLog;
-import com.xxxx.server.service.IEmployeeService;
-import com.xxxx.server.service.IMailLogService;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.xxxx.server.service.MailOutboxService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Component
+@ConditionalOnProperty(name="app.mail.dispatch-enabled",havingValue="true",matchIfMissing=true)
 public class MailTask {
-    @Autowired
-    private IEmployeeService employeeService;
-    @Autowired
-    RabbitTemplate rabbitTemplate;
-    @Autowired
-    private IMailLogService mailLogService;
-    @Scheduled(cron = "0/10 * * * * ?")
-    public void mailTask(){
-         List<MailLog> list=mailLogService.list(new QueryWrapper<MailLog>().eq("status",0).lt("tryTime", LocalDateTime.now()));
-         list.forEach(mailLog -> {
-             if (3<mailLog.getCount()){
-                 mailLogService.update(new UpdateWrapper<MailLog>().set("status",2).eq("msgId",mailLog.getMsgId()));
-             }
-             mailLogService.update(new UpdateWrapper<MailLog>().set("cout",mailLog.getCount()+1).set("updateTime",LocalDateTime.now()).set("tryTime",LocalDateTime.now().plusMinutes(MailConstants.MSG_TIMEOUT)).eq("msgid",mailLog.getMsgId()));
-             Employee employee =employeeService.getEmployee(mailLog.getEid()).get(0);
-             rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,MailConstants.MAIL_ROUTING_KEY_NAME,employee,new CorrelationData(mailLog.getMsgId()));
-         });
-    }
+    private final MailOutboxService outbox;
+    public MailTask(MailOutboxService outbox) { this.outbox=outbox; }
+    @Scheduled(fixedDelayString="${app.mail.dispatch-delay:10000}")
+    public void mailTask() { outbox.dispatchDue(); }
 }

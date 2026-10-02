@@ -5,6 +5,7 @@
       <list></list>
     </div>
     <div class="main">
+      <div class="chatStatus">{{ statusText }}</div>
       <message></message>
       <userText></userText>
     </div>
@@ -26,6 +27,22 @@ export default {
   },
   mounted:function() {
     this.$store.dispatch('initData');
+    window.addEventListener('focus', this.markRead)
+  },
+  beforeDestroy() {
+    window.removeEventListener('focus', this.markRead)
+    this.$store.commit('changecurrentSession', null)
+  },
+  computed: {
+    statusText() {
+      return {connected: '聊天已连接', connecting: '正在连接聊天服务…', reconnecting: '连接断开，正在重连…', disconnected: '聊天未连接'}[this.$store.state.chatConnection]
+    }
+  },
+  methods: {
+    markRead() {
+      const peer = this.$store.state.currentSession
+      if (peer) this.$store.dispatch('markRead', peer.username)
+    }
   },
   components:{
     card,
@@ -60,5 +77,6 @@ export default {
     overflow: hidden;
     background-color: #eee;
   }
+  .chatStatus { height: 32px; padding: 8px 14px; box-sizing: border-box; font-size: 12px; color: #667085; background: #fff; }
 }
 </style>

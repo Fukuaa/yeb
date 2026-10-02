@@ -4,6 +4,7 @@ import Login from "@/views/Login";
 import Home from "@/views/Home";
 import FriendChat from "@/views/chat/FriendChat";
 import AdminInfo from "@/views/AdminInfo";
+import MailLog from "@/views/mail/MailLog";
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,11 @@ const routes = [
         name: 'Home',
         component: Home,
         children: [
+            {
+                path: '/mail',
+                name: '邮件发送记录',
+                component: MailLog
+            },
             {
                 path: '/chat',
                 name: '在线聊天',

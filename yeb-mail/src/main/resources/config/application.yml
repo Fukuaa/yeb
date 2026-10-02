@@ -1,56 +1,42 @@
-server:
-  # 端口
-  port: 8082
 spring:
-  # 邮件配置
+  main:
+    web-application-type: none
+  datasource:
+    url: ${DB_URL:jdbc:mysql://192.168.240.10:3306/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:}
   mail:
-    # 邮件服务器地址
-    host: smtp.qq.com
-    # 协议
-    protocol: smtp
-    # 编码格式
-    default-encoding: utf-8
-    # 授权码（在邮箱开通服务时获取）
-    password: nvyzlnkdjdjvehcd
-    # 发送者邮箱地址
-    username: 1952407958@qq.com
-    # 端口（不同邮箱端口号不同）
-    port: 25
-
-  # rabbitmq配置
+    host: ${MAIL_HOST:smtp.qq.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: ${MAIL_AUTH:true}
+      mail.smtp.starttls.enable: ${MAIL_STARTTLS:true}
+      mail.smtp.starttls.required: ${MAIL_STARTTLS:true}
+      mail.smtp.ssl.enable: ${MAIL_SSL:false}
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
   rabbitmq:
-    # 用户名
-    username: admin
-    # 密码
-    password: admin
-    # 服务器地址
+    virtual-host: ${RABBITMQ_VHOST:/}
     host: ${RABBITMQ_HOST:192.168.240.10}
-    # 端口
     port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:admin}
+    password: ${RABBITMQ_PASSWORD:}
     listener:
       simple:
-        #开启手动确认
         acknowledge-mode: manual
-
-
+        prefetch: 1
+        default-requeue-rejected: false
   redis:
-    #超时时间
-    timeout: 10000ms
-    #服务器地址
     host: ${REDIS_HOST:192.168.240.10}
-    #服务器端口
     port: ${REDIS_PORT:6379}
-    #数据库
-    database: 0
-    #密码
     password: ${REDIS_PASSWORD:}
-    lettuce:
-      pool:
-        #最大连接数，默认8
-        max-active: 1024
-        #最大连接阻塞等待时间，默认-1
-        max-wait: 10000ms
-        #最大空闲连接
-        max-idle: 200
-        #最小空闲连接
-        min-idle: 5
+app:
+  mail:
+    from: ${MAIL_FROM:}
+    queue: ${MAIL_QUEUE:mail.queue}
+    exchange: ${MAIL_EXCHANGE:mail.exchange}
+    routing-key: ${MAIL_ROUTING_KEY:mail.routing.key}
