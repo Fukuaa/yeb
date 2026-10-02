@@ -60,4 +60,4 @@ cd C:\Users\19365\yeb
 mvn -pl yeb-server,yeb-mail -am test
 ```
 
-聊天和邮件包含 13 项后端测试；完整链路另外使用独立 MySQL 测试库、RabbitMQ 测试虚拟主机及本地 SMTP 接收器验证，不给真实员工发送测试邮件。
+聊天、邮件和菜单权限包含 17 项后端测试；完整链路另外使用独立 MySQL 测试库、RabbitMQ 测试虚拟主机及本地 SMTP 接收器验证，不给真实员工发送测试邮件。

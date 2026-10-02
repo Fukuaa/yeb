@@ -22,7 +22,13 @@ public class CustomFilter implements FilterInvocationSecurityMetadataSource {
     AntPathMatcher AntPathMatcher = new AntPathMatcher();
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
-        String requestUrl = ((FilterInvocation) o).getRequestUrl();
+        FilterInvocation invocation = (FilterInvocation) o;
+        String requestUrl = invocation.getRequest().getServletPath();
+        // This endpoint returns only the current operator's permitted menus.
+        // It must be available before applying the broader system-configuration roles.
+        if ("GET".equals(invocation.getRequest().getMethod()) && "/system/cfg/menu".equals(requestUrl)) {
+            return SecurityConfig.createList("ROLE_LOGIN");
+        }
         List<Menu> menus = menuService.getMenusWithRole();
         for (Menu menu:menus){
             if(AntPathMatcher.match(menu.getUrl(),requestUrl)){
