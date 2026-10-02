@@ -24,9 +24,9 @@ spring:
     # 密码
     password: admin
     # 服务器地址
-    host: 192.168.23.132
+    host: ${RABBITMQ_HOST:192.168.240.10}
     # 端口
-    port: 5672
+    port: ${RABBITMQ_PORT:5672}
     listener:
       simple:
         #开启手动确认

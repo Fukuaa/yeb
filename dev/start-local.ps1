@@ -36,6 +36,23 @@ $env:SPRING_REDIS_HOST = '127.0.0.1'
 $env:SERVER_PORT = '8080'
 $env:SPRING_WEB_RESOURCES_STATIC_LOCATIONS = 'file:///' + ($dist -replace '\\', '/') + '/'
 $maven = 'C:\Program Files\JetBrains\IntelliJ IDEA 2022.2.1\plugins\maven\lib\maven3\bin\mvn.cmd'
+if (-not (Test-Path -LiteralPath $maven)) {
+    $installedMaven = Get-Command mvn -ErrorAction SilentlyContinue
+    if ($installedMaven) {
+        $maven = $installedMaven.Source
+    } else {
+        $mavenCache = Join-Path $env:USERPROFILE '.m2\wrapper\dists'
+        $cachedMaven = if (Test-Path -LiteralPath $mavenCache) {
+            Get-ChildItem -LiteralPath $mavenCache -Filter mvn.cmd -File -Recurse |
+                Sort-Object LastWriteTime -Descending |
+                Select-Object -First 1
+        }
+        if (-not $cachedMaven) {
+            throw '找不到 Maven：请安装 Maven 并加入 PATH，或先运行 Maven Wrapper。'
+        }
+        $maven = $cachedMaven.FullName
+    }
+}
 
 Push-Location $backend
 try {

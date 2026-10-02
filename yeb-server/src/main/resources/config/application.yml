@@ -8,8 +8,8 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
+    url: ${DB_URL:jdbc:mysql://192.168.240.10:3306/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai}
+    username: ${DB_USER:root}
     password: 123456
     hikari:
       # 连接池名
@@ -57,9 +57,9 @@ spring:
     # 密码
     password: admin
     # 服务器地址
-    host: 192.168.23.132
+    host: ${RABBITMQ_HOST:192.168.240.10}
     # 端口
-    port: 5672
+    port: ${RABBITMQ_PORT:5672}
     #消息确认回调
     publisher-confirm-type: correlated
     #消息失败回调
