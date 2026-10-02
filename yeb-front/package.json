@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "node --openssl-legacy-provider ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
-    "build": "node --openssl-legacy-provider ./node_modules/@vue/cli-service/bin/vue-cli-service.js build"
+    "build": "node --openssl-legacy-provider ./node_modules/@vue/cli-service/bin/vue-cli-service.js build",
+    "test:auth": "node ./tests/auth-header.test.mjs"
   },
   "dependencies": {
     "axios": "^0.21.1",

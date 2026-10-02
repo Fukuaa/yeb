@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {getRequest, postRequest} from '@/utils/api'
+import {getAuthorizationHeader} from '@/utils/auth'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 import {Notification} from 'element-ui'
@@ -22,7 +23,7 @@ function mergeMessages(state, peer, messages) {
 }
 
 function tokenAvailable() {
-  const header = sessionStorage.getItem('tokenStr')
+  const header = getAuthorizationHeader()
   if (!header) return false
   try {
     const token = header.trim().split(/\s+/).pop()
@@ -76,7 +77,7 @@ const store = new Vuex.Store({
       context.commit('CHAT_CLIENT', client)
       context.commit('CHAT_CONNECTION', retryCount ? 'reconnecting' : 'connecting')
       connectionPromise = new Promise((resolve, reject) => {
-        client.connect({'Auth-Token': sessionStorage.getItem('tokenStr')}, () => {
+        client.connect({'Auth-Token': getAuthorizationHeader()}, () => {
           if (generation !== currentGeneration) { client.disconnect(); reject(new Error('连接已取消')); return }
           retryCount = 0; connectionPromise = null
           context.commit('CHAT_CONNECTION', 'connected')

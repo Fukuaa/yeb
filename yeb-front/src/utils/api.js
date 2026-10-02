@@ -1,3 +1,4 @@
+import {getAuthorizationHeader} from '@/utils/auth'
 import axios from "axios";
 import {Message} from "element-ui";
 import router from "@/router";
@@ -5,9 +6,9 @@ import router from "@/router";
 // 请求拦截器
 axios.interceptors.request.use(config => {
     // 如果存在 token，请求携带这个 token( 登录的时候 把 token 存入了 sessionStorage ）
-    if (window.sessionStorage.getItem("tokenStr")) {
+    if (getAuthorizationHeader()) {
         // token 的key : Authorization ; value: tokenStr
-        config.headers['Authorization'] = window.sessionStorage.getItem('tokenStr')
+        config.headers['Authorization'] = getAuthorizationHeader()
     }
     return config;
 },error => {

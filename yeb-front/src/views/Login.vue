@@ -82,7 +82,7 @@ export default {
             this.loading = false
             if (resp) {
               // 存储用户 token 到 sessionStorage
-              const tokenStr = resp.obj.tokenHead + resp.obj.token
+              const tokenStr = resp.obj.tokenHead.trim() + ' ' + resp.obj.token
               window.sessionStorage.setItem('tokenStr', tokenStr)
               // 跳转到首页
               // this.$router.push('/home') // 路由跳转，可以回退到上一页

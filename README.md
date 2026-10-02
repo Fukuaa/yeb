@@ -61,3 +61,5 @@ mvn -pl yeb-server,yeb-mail -am test
 ```
 
 聊天、邮件和菜单权限包含 17 项后端测试；完整链路另外使用独立 MySQL 测试库、RabbitMQ 测试虚拟主机及本地 SMTP 接收器验证，不给真实员工发送测试邮件。
+
+前端登录凭据兼容检查：在 `yeb-front` 目录运行 `npm run test:auth`。旧版登录页保存的无空格 Bearer 凭据会在刷新后自动修正，HTTP 请求和聊天连接使用相同的标准格式。

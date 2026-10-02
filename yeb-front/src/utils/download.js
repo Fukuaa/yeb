@@ -1,3 +1,4 @@
+import {getAuthorizationHeader} from '@/utils/auth'
 // 封装导出数据工具类
 // 本身也是通过 axios 调用后端接口
 import axios from "axios";
@@ -9,7 +10,7 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use(config => {
-    config.headers['Authorization'] = window.sessionStorage.getItem('tokenStr')
+    config.headers['Authorization'] = getAuthorizationHeader()
     return config
 }, error => {
     console.log(error)
